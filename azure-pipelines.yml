@@ -22,7 +22,7 @@ stages:
             backendAzureRmContainerName: 'vivekcorp'
             backendAzureRmKey: 'anykey'
    - stage: terraformplan
-     displayName: plan
+     displayName: terraformplan
      jobs:
       - job: builsplan
         steps :
@@ -32,7 +32,7 @@ stages:
             command: 'plan'
             workingDirectory: '$(System.DefaultWorkingDirectory)'
             
-      - job: treinit
+      - job: terraforminit
         steps:
         - task: TerraformTaskV4@4
           inputs:
@@ -43,7 +43,7 @@ stages:
             backendAzureRmResourceGroupName: 'AZRIUSMIND'
             backendAzureRmStorageAccountName: 'azripstmind'
             backendAzureRmContainerName: 'vivekcorp'
-            backendAzureRmKey: 'rama'
+            backendAzureRmKey: 'anyany'
 
 
 
