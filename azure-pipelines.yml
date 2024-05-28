@@ -30,7 +30,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            environmentServiceNameAzureRM: 'vivekazureconnect'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Devops'
             
       - job: treinit
         steps:
