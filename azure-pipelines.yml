@@ -22,11 +22,6 @@ stages:
             backendAzureRmStorageAccountName: 'azripstmind'
             backendAzureRmContainerName: 'vivekcorp'
             backendAzureRmKey: 'anykey'
-   - stage: terraformplan
-     displayName: terraformplan
-     jobs:
-      - job: builsplan
-        steps :
         - task: TerraformTaskV4@4
           inputs:
             provider: 'azurerm'
@@ -34,8 +29,6 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/RG'
             environmentServiceNameAzureRM: 'vivekazureconnect'
             
-      - job: terraforminit
-        steps:
         - task: TerraformTaskV4@4
           inputs:
             provider: 'azurerm'
