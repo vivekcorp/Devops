@@ -38,6 +38,12 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Devops'
+            backendServiceArm: 'vivekazureconnect'
+            backendAzureRmResourceGroupName: 'AZRIUSMIND'
+            backendAzureRmStorageAccountName: 'azripstmind'
+            backendAzureRmContainerName: 'vivekcorp'
+            backendAzureRmKey: 'rama'
 
 
 
