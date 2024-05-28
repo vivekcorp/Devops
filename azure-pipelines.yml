@@ -30,7 +30,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)'
+            environmentServiceNameAzureRM: 'vivekazureconnect'
             
       - job: terraforminit
         steps:
