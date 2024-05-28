@@ -1,0 +1,24 @@
+trigger: none
+
+pool: vivekinfra
+
+stages:
+   - stage: build
+     displayname: Buildinfra
+     jobs:  
+      -job : buildci
+
+      steps :
+      - task: TerraformInstaller@1
+        inputs:
+          terraformVersion: 'latest'
+
+      - task: TerraformTaskV4@4
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          backendServiceArm: 'vivekazureconnect'
+          backendAzureRmResourceGroupName: 'AZRIUSMIND'
+          backendAzureRmStorageAccountName: 'azripstmind'
+          backendAzureRmContainerName: 'vivekcorp'
+          backendAzureRmKey: 'anykey'
