@@ -16,6 +16,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
+            workingDirectory: '$(Build.SourcesDirectory)/RG'
             backendServiceArm: 'vivekazureconnect'
             backendAzureRmResourceGroupName: 'AZRIUSMIND'
             backendAzureRmStorageAccountName: 'azripstmind'
@@ -30,6 +31,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
+            workingDirectory: '$(Build.SourcesDirectory)/RG'
             environmentServiceNameAzureRM: 'vivekazureconnect'
             
       - job: terraforminit
@@ -37,13 +39,9 @@ stages:
         - task: TerraformTaskV4@4
           inputs:
             provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/RG'
-            backendServiceArm: 'vivekazureconnect'
-            backendAzureRmResourceGroupName: 'AZRIUSMIND'
-            backendAzureRmStorageAccountName: 'azripstmind'
-            backendAzureRmContainerName: 'vivekcorp'
-            backendAzureRmKey: 'nbbn'
+            command: 'apply'
+            workingDirectory: '$(Build.SourcesDirectory)/RG'
+            environmentServiceNameAzureRM: 'vivekazureconnect'
         
 
 
