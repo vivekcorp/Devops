@@ -16,7 +16,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(Build.SourcesDirectory)/RG'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/RG'
             backendServiceArm: 'vivekazureconnect'
             backendAzureRmResourceGroupName: 'AZRIUSMIND'
             backendAzureRmStorageAccountName: 'azripstmind'
@@ -31,7 +31,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(Build.SourcesDirectory)/RG'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/RG'
             environmentServiceNameAzureRM: 'vivekazureconnect'
             
       - job: terraforminit
@@ -40,7 +40,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'apply'
-            workingDirectory: '$(Build.SourcesDirectory)/RG'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/RG'
             environmentServiceNameAzureRM: 'vivekazureconnect'
         
 
