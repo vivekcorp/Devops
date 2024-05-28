@@ -30,7 +30,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/Devops'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
             
       - job: treinit
         steps:
@@ -38,7 +38,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/Devops'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
             backendServiceArm: 'vivekazureconnect'
             backendAzureRmResourceGroupName: 'AZRIUSMIND'
             backendAzureRmStorageAccountName: 'azripstmind'
