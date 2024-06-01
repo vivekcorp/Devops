@@ -19,6 +19,7 @@ jobs:
 
       - name: 'Run az commands'
         run: |
-          working_directory : ../rg
-          terraform init
-          terraform plan
+          az account show
+          Remove-AzResourceGroup -Name tumtumrg
+          Remove-AzResourceGroup -Name vktflip
+
