@@ -27,4 +27,4 @@ jobs:
 
     - name: delete Resource Group
       run: |
-        az group delete -n MyResourceGroup
+        az group delete -n MyResourceGroup --yes
