@@ -1,5 +1,7 @@
-name: Run Azure Login with OIDC
-on: [push]
+name: CI
+on: 
+    pull_request:
+    workflow_dispatch:
 
 permissions:
   id-token: write
@@ -17,5 +19,5 @@ jobs:
 
       - name: 'Run az commands'
         run: |
-          az account show
-          az group list
+          terraform init
+          terraform plan
