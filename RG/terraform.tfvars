@@ -1,6 +1,6 @@
 vivekRG = {
   vk = {
-    name     = "tumtumrg"
+    name     = "tumtumrg1"
     location = "westus"
   }
 
