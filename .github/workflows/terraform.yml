@@ -27,4 +27,4 @@ jobs:
 
     - name: Create Resource Group
       run: |
-        az group create --name MyResourceGroup --location eastus
+        az group delete --name MyResourceGroup --location eastus
