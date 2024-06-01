@@ -19,5 +19,6 @@ jobs:
 
       - name: 'Run az commands'
         run: |
+          working_directory : ../rg
           terraform init
           terraform plan
