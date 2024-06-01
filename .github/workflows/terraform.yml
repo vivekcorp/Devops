@@ -25,6 +25,17 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: delete Resource Group
-      run: |
-        az group delete -n MyResourceGroup --yes
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+          terraform_version: 1.5.7
+    - name: Terraform init and validate
+      working-directory: $(../../RG)
+      run: 
+          terraform init
+      
+      
+    - name: Terraform plan
+      working-directory: $(../../RG)
+      run:
+          terraform plan
