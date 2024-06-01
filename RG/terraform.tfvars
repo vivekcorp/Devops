@@ -5,7 +5,7 @@ vivekRG = {
   }
 
   vk1 = {
-    name     = "vktflip1"
+    name     = "vktflip2"
     location = "westus"
   }
 }
