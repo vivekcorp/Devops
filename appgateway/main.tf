@@ -1,5 +1,5 @@
 resource "azurerm_subnet" "app_gateway_subnet" {
-  name                 = "app-gateway-subnet"
+  name                 = "app-gateway-subnet11"
   resource_group_name  = "pramod-rg01"
   virtual_network_name = "pramod-vnet1"
   address_prefixes     = ["10.0.9.0/24"]  # Adjust the address prefix according to your network configuration
