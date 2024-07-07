@@ -42,7 +42,7 @@ jobs:
       working-directory: ./RG
       run: terraform plan
           
-    - name: Terraform plan
+    - name: Terraform apply
       working-directory: ./RG
       run: terraform apply
 
