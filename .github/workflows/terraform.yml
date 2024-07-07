@@ -44,6 +44,6 @@ jobs:
           
     - name: Terraform apply
       working-directory: ./RG
-      run: terraform apply --approve
+      run: terraform apply -auto-approve
 
       
