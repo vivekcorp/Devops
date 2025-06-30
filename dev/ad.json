@@ -1,0 +1,6 @@
+{
+  "resource_id": "/subscriptions/66b3f5b6-8e0e-40da-bb11-2e607df4cf26/resourceGroups/transinfra/providers/Microsoft.Databricks/workspaces/transinfradb",
+  "workspace_url": "adb-4239081258184437.17.azuredatabricks.net",
+  "notebook_path": "/Shared",
+  "databricks_resource_id": "2ff814a6-3304-4ab8-85cb-cd0e6f879c1d"
+}
