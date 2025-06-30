@@ -1,0 +1,65 @@
+name: Azure Databricks Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Environment'
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - stage
+          - prod
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-adb:
+    name: Deploy to ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set environment secrets
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+            echo "AZURE_CLIENT_ID=${{ secrets.PROD_ARM_CLIENT_ID }}" >> $GITHUB_ENV
+            echo "AZURE_SUBSCRIPTION_ID=${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+            echo "AZURE_CLIENT_SECRET=${{ secrets.PROD_ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+          else
+            echo "AZURE_CLIENT_ID=${{ secrets.NONPROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
+            echo "AZURE_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+            echo "AZURE_CLIENT_SECRET=${{ secrets.NONPROD_AZURE_CLIENT_SECRET }}" >> $GITHUB_ENV
+          fi
+          echo "AZURE_TENANT_ID=${{ secrets.PROD_ARM_TENANT_ID }}" >> $GITHUB_ENV
+
+      - name: Install Az module
+        shell: pwsh
+        run: |
+          Install-Module -Name Az -Scope CurrentUser -Force -AllowClobber
+          Import-Module Az
+
+      - name: Authenticate to Azure
+        shell: pwsh
+        run: |
+          $secPassword = ConvertTo-SecureString "${{ env.AZURE_CLIENT_SECRET }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential ($env:AZURE_CLIENT_ID, $secPassword)
+          Connect-AzAccount -ServicePrincipal -TenantId $env:AZURE_TENANT_ID -Credential $cred
+          Set-AzContext -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
+
+      - name: Deploy notebooks to Azure Databricks
+        shell: pwsh
+        run: |
+          $envName = "${{ github.event.inputs.environment }}"
+          $configPath = "${{ github.workspace }}/Environment/adb_${envName}_deployment.json"
+          & "${{ github.workspace }}/.github/deployment-scripts/deploy-notebook.ps1" -Environment $envName -ConfigFilePath $configPath
+
+      - name: ✅ Notify completion
+        if: always()
+        run: echo "Deployment completed for ${{ github.event.inputs.environment }}"
