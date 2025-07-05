@@ -2,48 +2,58 @@ name: RG
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - none
 
 permissions:
   id-token: write
-  contents: read
+  contents: write  # changed to 'write' so PR creation is allowed
 
 jobs:
   create-resource-group:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Login to Azure using OIDC
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
+      - name: Login to Azure using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
           terraform_version: 1.5.7
 
-    - name: Terraform init
-      working-directory: ./RG
-      run: terraform init
+      - name: Terraform init
+        working-directory: ./RG
+        run: terraform init
 
-    - name: Terraform validate
-      working-directory: ./RG
-      run: terraform validate
+      - name: Terraform validate
+        working-directory: ./RG
+        run: terraform validate
 
-    - name: Terraform plan
-      working-directory: ./RG
-      run: terraform plan
-          
-    - name: Terraform apply
-      working-directory: ./RG
-      run: terraform apply -auto-approve
+      - name: Terraform plan
+        working-directory: ./RG
+        run: terraform plan
 
-      
+  create-pull-request:
+    needs: create-resource-group
+    runs-on: ubuntu-latest
+    if: success()  # only runs if previous job succeeds
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "Terraform plan passed ✔"
+          title: "Terraform Plan for RG — Auto PR"
+          branch: tf-plan-success
+          body: |
+            ✅ Terraform plan succeeded for `RG` directory.
+            This pull request has been auto-generated to proceed with the next steps.
